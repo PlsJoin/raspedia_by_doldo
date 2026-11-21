@@ -1,0 +1,347 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ラスカルサーバーWiki</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #f8f9fa;
+    color: #202122;
+    font-family: Arial, "Noto Sans JP", sans-serif;
+}
+
+header {
+    background: white;
+    border-bottom: 1px solid #a7d7f9;
+    padding: 15px 25px;
+}
+
+.header-inner {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo {
+    font-size: 23px;
+    font-weight: bold;
+    color: #202122;
+    text-decoration: none;
+}
+
+.search input {
+    padding: 10px;
+    width: 280px;
+    border: 1px solid #a2a9b1;
+    border-radius: 2px;
+    font-size: 14px;
+}
+
+.layout {
+    max-width: 1200px;
+    margin: 25px auto;
+    display: flex;
+    gap: 30px;
+    padding: 0 20px;
+}
+
+aside {
+    width: 190px;
+    flex-shrink: 0;
+}
+
+aside h3 {
+    border-bottom: 1px solid #a2a9b1;
+    padding-bottom: 8px;
+}
+
+aside a {
+    display: block;
+    color: #0645ad;
+    text-decoration: none;
+    padding: 8px 5px;
+    cursor: pointer;
+}
+
+aside a:hover {
+    background: #eaecf0;
+}
+
+main {
+    flex: 1;
+    min-width: 0;
+    background: white;
+    border: 1px solid #a7d7f9;
+    padding: 30px;
+    min-height: 600px;
+}
+
+h1 {
+    font-size: 28px;
+    font-weight: normal;
+    border-bottom: 1px solid #a2a9b1;
+    padding-bottom: 10px;
+}
+
+h2 {
+    font-size: 21px;
+    font-weight: normal;
+    border-bottom: 1px solid #a2a9b1;
+    padding-bottom: 7px;
+    margin-top: 35px;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.category {
+    border: 1px solid #a2a9b1;
+    padding: 18px;
+    text-align: center;
+    cursor: pointer;
+    color: #0645ad;
+    background: #f8f9fa;
+}
+
+.category:hover {
+    background: #eaecf0;
+}
+
+.article-item {
+    padding: 12px 5px;
+    border-bottom: 1px solid #eaecf0;
+}
+
+.article-item a {
+    color: #0645ad;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.article-item a:hover {
+    text-decoration: underline;
+}
+
+.article-category {
+    color: #72777d;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+footer {
+    text-align: center;
+    color: #72777d;
+    border-top: 1px solid #a2a9b1;
+    padding: 20px;
+    margin-top: 40px;
+}
+
+@media (max-width: 700px) {
+    .header-inner {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search input {
+        width: 100%;
+    }
+
+    .layout {
+        flex-direction: column;
+    }
+
+    aside {
+        width: 100%;
+    }
+
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    main {
+        padding: 18px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="header-inner">
+        <a href="#" class="logo" onclick="showHome()">ラスカルサーバーWiki</a>
+        <div class="search">
+            <input type="text" id="searchInput" placeholder="Wiki内を検索..." oninput="searchArticles()">
+        </div>
+    </div>
+</header>
+
+<div class="layout">
+
+    <aside>
+        <h3>メニュー</h3>
+        <a onclick="showHome()">メインページ</a>
+        <a onclick="showCategory('サーバー情報')">サーバー情報</a>
+        <a onclick="showCategory('経済')">経済</a>
+        <a onclick="showCategory('職業')">職業</a>
+        <a onclick="showCategory('ダンジョン')">ダンジョン</a>
+        <a onclick="showCategory('アイテム')">アイテム</a>
+        <a onclick="showCategory('戦争')">戦争</a>
+        <a onclick="showCategory('その他')">その他</a>
+    </aside>
+
+    <main>
+        <div id="content"></div>
+    </main>
+
+</div>
+
+<footer>
+    <p>ラスカルサーバーWiki | 非公式ファンWiki</p>
+</footer>
+
+<script>
+const articles = [
+    {
+        title: "ラスカルサーバー",
+        category: "サーバー情報",
+        description: "Minecraft統合版のラスカルサーバーについて。"
+    },
+    {
+        title: "経済システム",
+        category: "経済",
+        description: "サーバー内の経済システムについて。"
+    },
+    {
+        title: "職業一覧",
+        category: "職業",
+        description: "サーバー内で利用できる職業について。"
+    },
+    {
+        title: "ダンジョン",
+        category: "ダンジョン",
+        description: "ダンジョンの攻略情報。"
+    },
+    {
+        title: "アイテム一覧",
+        category: "アイテム",
+        description: "サーバー内のアイテムについて。"
+    },
+    {
+        title: "戦争システム",
+        category: "戦争",
+        description: "戦争に関する情報。"
+    }
+];
+
+const content = document.getElementById("content");
+
+function showHome() {
+    document.getElementById("searchInput").value = "";
+
+    content.innerHTML = `
+        <h1>メインページ</h1>
+        <p>ラスカルサーバーWikiへようこそ。</p>
+        <p>このWikiはMinecraft統合版「ラスカルサーバー」に関する情報をまとめる非公式Wikiです。</p>
+
+        <h2>カテゴリー</h2>
+        <div class="category-grid">
+            <div class="category" onclick="showCategory('サーバー情報')">サーバー情報</div>
+            <div class="category" onclick="showCategory('経済')">経済</div>
+            <div class="category" onclick="showCategory('職業')">職業</div>
+            <div class="category" onclick="showCategory('ダンジョン')">ダンジョン</div>
+            <div class="category" onclick="showCategory('アイテム')">アイテム</div>
+            <div class="category" onclick="showCategory('戦争')">戦争</div>
+        </div>
+
+        <h2>記事一覧</h2>
+        <div id="articleList"></div>
+    `;
+
+    renderArticles(articles);
+}
+
+function showCategory(category) {
+    document.getElementById("searchInput").value = "";
+
+    const filtered = articles.filter(article => article.category === category);
+
+    content.innerHTML = `
+        <h1>${category}</h1>
+        <p>${category}に関する記事一覧です。</p>
+        <h2>記事一覧</h2>
+        <div id="articleList"></div>
+    `;
+
+    renderArticles(filtered);
+}
+
+function renderArticles(list) {
+    const articleList = document.getElementById("articleList");
+
+    if (!articleList) return;
+
+    if (list.length === 0) {
+        articleList.innerHTML = "<p>記事が見つかりませんでした。</p>";
+        return;
+    }
+
+    articleList.innerHTML = list.map(article => `
+        <div class="article-item">
+            <a onclick="showArticle('${article.title}')">${article.title}</a>
+            <div class="article-category">${article.category}</div>
+        </div>
+    `).join("");
+}
+
+function showArticle(title) {
+    const article = articles.find(item => item.title === title);
+    if (!article) return;
+
+    content.innerHTML = `
+        <h1>${article.title}</h1>
+        <p>${article.description}</p>
+        <h2>概要</h2>
+        <p>この記事は現在作成途中です。</p>
+        <p><a onclick="showCategory('${article.category}')">カテゴリーに戻る</a></p>
+    `;
+}
+
+function searchArticles() {
+    const keyword = document.getElementById("searchInput").value.toLowerCase();
+
+    content.innerHTML = `
+        <h1>検索結果</h1>
+        <p>「${keyword}」の検索結果</p>
+        <div id="articleList"></div>
+    `;
+
+    const filtered = articles.filter(article =>
+        article.title.toLowerCase().includes(keyword) ||
+        article.category.toLowerCase().includes(keyword) ||
+        article.description.toLowerCase().includes(keyword)
+    );
+
+    renderArticles(filtered);
+}
+
+showHome();
+</script>
+
+</body>
+</html>
