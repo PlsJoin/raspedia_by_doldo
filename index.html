@@ -6,200 +6,223 @@
 <title>ラスペディア</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
 * {
     box-sizing: border-box;
 }
 
+html {
+    background: #f6f6f6;
+}
+
 body {
     margin: 0;
-    background: #f7f2e7;
-    color: #2a2622;
+    background: #f6f6f6;
+    color: #202122;
     font-family: "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "MS PMincho", serif;
-    font-size: 16px;
-    line-height: 1.9;
+    font-size: 15px;
+    line-height: 1.8;
 }
 
 a {
-    color: #2b3a67;
-    cursor: pointer;
+    color: #0645ad;
     text-decoration: none;
+    cursor: pointer;
 }
 
 a:hover {
-    color: #b23a2e;
+    text-decoration: underline;
 }
 
-header {
-    background: #2b3a67;
-    color: #f7f2e7;
-    padding: 26px 20px 22px 20px;
+.page {
+    display: flex;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 176px;
+    flex-shrink: 0;
+    padding: 14px 12px 20px 12px;
+}
+
+.logo-box {
     text-align: center;
-    border-bottom: 4px solid #b23a2e;
-}
-
-.brand {
-    display: inline-block;
+    padding: 6px 0 16px 0;
     cursor: pointer;
 }
 
-.brand-title {
-    font-size: 40px;
-    font-weight: 900;
-    letter-spacing: 8px;
-    padding-left: 8px;
-    line-height: 1.3;
+.logo-mark {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 8px auto;
+    border-radius: 50%;
+    border: 3px double #54595d;
+    background: radial-gradient(circle at 35% 30%, #ffffff, #dfe6f0 70%, #c3cddd);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    font-weight: 700;
+    color: #2a2a2a;
 }
 
-.brand-sub {
+.logo-title {
+    font-size: 21px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.logo-sub {
+    font-size: 11px;
+    color: #54595d;
+}
+
+.portlet {
+    margin-bottom: 16px;
+}
+
+.portlet h3 {
+    margin: 0 0 4px 0;
+    padding: 4px 4px 4px 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #54595d;
+    background: linear-gradient(to right, rgba(200, 204, 209, 0.6), rgba(200, 204, 209, 0));
+}
+
+.portlet a {
+    display: block;
+    padding: 3px 8px;
     font-size: 13px;
-    letter-spacing: 4px;
-    opacity: 0.8;
 }
 
-.searchbar {
-    margin-top: 16px;
+.content-wrap {
+    flex: 1;
+    min-width: 0;
+    padding-top: 14px;
 }
 
-.searchbar input {
-    width: 100%;
-    max-width: 460px;
-    padding: 10px 16px;
-    border: none;
-    border-radius: 30px;
-    font-family: inherit;
-    font-size: 15px;
-    background: #fffdf8;
-    color: #2a2622;
-    outline: none;
+.tabs {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-left: 10px;
+    height: 40px;
 }
 
-nav {
-    background: #efe7d3;
-    border-bottom: 1px solid #d6c9a8;
-    padding: 10px 16px;
-    text-align: center;
-}
-
-nav a {
+.tab {
     display: inline-block;
-    margin: 3px 6px;
-    padding: 4px 14px;
-    font-size: 14px;
-    border: 1px solid #b8a97f;
-    border-radius: 3px;
-    background: #fbf8ef;
+    padding: 9px 16px 7px 16px;
+    font-size: 13px;
+    background: white;
+    border: 1px solid #a7d7f9;
+    border-bottom: none;
+    color: #202122;
 }
 
-nav a:hover {
-    background: #2b3a67;
-    color: #f7f2e7;
-    border-color: #2b3a67;
+.search-box {
+    padding: 0 12px 6px 0;
+}
+
+.search-box input {
+    width: 240px;
+    padding: 6px 10px;
+    border: 1px solid #a2a9b1;
+    border-radius: 2px;
+    font-family: inherit;
+    font-size: 13px;
+    background: white;
 }
 
 main {
-    max-width: 860px;
-    margin: 28px auto;
-    background: #fffdf8;
-    border: 1px solid #d6c9a8;
-    box-shadow: 0 3px 0 #e3d8bc;
-    padding: 34px 44px 44px 44px;
-    min-height: 480px;
+    background: white;
+    border: 1px solid #a7d7f9;
+    padding: 22px 32px 40px 32px;
+    min-height: 560px;
 }
 
 h1 {
-    margin: 0 0 8px 0;
-    font-size: 32px;
-    font-weight: 900;
-    line-height: 1.4;
-    padding-left: 14px;
-    border-left: 8px solid #b23a2e;
+    margin: 0 0 6px 0;
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 1.3;
+    border-bottom: 1px solid #a2a9b1;
+    padding-bottom: 6px;
 }
 
 h2 {
-    margin: 34px 0 10px 0;
-    font-size: 21px;
-    font-weight: 700;
-    color: #2b3a67;
+    font-size: 22px;
+    font-weight: 600;
+    border-bottom: 1px solid #a2a9b1;
     padding-bottom: 4px;
-    border-bottom: 2px solid #2b3a67;
+    margin: 28px 0 12px 0;
 }
 
 p {
-    margin: 10px 0;
+    margin: 8px 0;
 }
 
-.tag {
-    display: inline-block;
-    margin: 4px 0 14px 22px;
-    padding: 0 12px;
+.tagline {
     font-size: 12px;
-    color: #b23a2e;
-    border: 1px solid #b23a2e;
-    border-radius: 20px;
+    color: #54595d;
+    margin-bottom: 14px;
 }
 
-.lead {
-    font-size: 17px;
-    padding: 12px 18px;
-    margin: 14px 0;
-    background: #f7f2e7;
-    border-left: 4px solid #2b3a67;
-}
-
-.card {
+.infobox {
     float: right;
-    width: 250px;
-    margin: 6px 0 16px 24px;
-    border: 1px solid #b8a97f;
-    background: #fbf8ef;
-    font-size: 14px;
-    line-height: 1.7;
+    clear: right;
+    width: 270px;
+    margin: 6px 0 14px 22px;
+    border: 1px solid #a2a9b1;
+    background: #f8f9fa;
+    font-size: 13px;
+    line-height: 1.6;
 }
 
-.card-title {
-    background: #2b3a67;
-    color: #f7f2e7;
+.infobox .ib-title {
+    background: #cedff2;
     text-align: center;
-    padding: 6px;
     font-weight: 700;
+    padding: 6px;
+    font-size: 15px;
 }
 
-.card table {
+.infobox table {
     width: 100%;
     border-collapse: collapse;
 }
 
-.card th,
-.card td {
-    padding: 5px 10px;
-    text-align: left;
+.infobox th,
+.infobox td {
+    padding: 4px 8px;
     vertical-align: top;
-    border-top: 1px solid #e3d8bc;
+    border-top: 1px solid #eaecf0;
+    text-align: left;
 }
 
-.card th {
-    width: 84px;
-    color: #b23a2e;
+.infobox th {
+    width: 82px;
+    background: #eaf3ff;
     font-weight: 600;
 }
 
 .toc {
     display: inline-block;
-    min-width: 220px;
-    margin: 10px 0;
-    padding: 10px 24px 10px 18px;
-    border: 1px dashed #b8a97f;
-    background: #fbf8ef;
-    font-size: 14px;
+    border: 1px solid #a2a9b1;
+    background: #f8f9fa;
+    padding: 8px 18px 8px 14px;
+    font-size: 13px;
+    margin: 10px 0 14px 0;
+    min-width: 200px;
 }
 
 .toc-title {
+    text-align: center;
     font-weight: 700;
-    margin-bottom: 2px;
-    color: #2b3a67;
+    margin-bottom: 4px;
 }
 
 .toc ol {
@@ -210,76 +233,87 @@ p {
 .category-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-top: 12px;
+    gap: 10px;
 }
 
 .category {
-    padding: 16px 10px;
+    border: 1px solid #a2a9b1;
+    padding: 14px;
     text-align: center;
     cursor: pointer;
-    color: #2b3a67;
-    font-weight: 600;
-    border: 1px solid #b8a97f;
-    border-top: 4px solid #2b3a67;
-    background: #fbf8ef;
+    color: #0645ad;
+    background: #f8f9fa;
 }
 
 .category:hover {
-    background: #2b3a67;
-    color: #f7f2e7;
+    background: #eaf3ff;
 }
 
 .article-item {
-    padding: 11px 6px;
-    border-bottom: 1px dotted #b8a97f;
-}
-
-.article-item a {
-    font-size: 17px;
-    font-weight: 600;
+    padding: 9px 4px;
+    border-bottom: 1px solid #eaecf0;
 }
 
 .article-category {
+    color: #72777d;
     font-size: 12px;
-    color: #8a7f66;
 }
 
-.back {
+.catlinks {
     clear: both;
-    margin-top: 34px;
-    padding-top: 12px;
-    border-top: 1px solid #d6c9a8;
-    font-size: 14px;
+    margin-top: 30px;
+    border: 1px solid #a2a9b1;
+    background: #f8f9fa;
+    padding: 6px 12px;
+    font-size: 13px;
 }
 
 footer {
-    text-align: center;
-    padding: 10px 20px 36px 20px;
+    padding: 20px 20px 30px 190px;
     font-size: 12px;
-    color: #8a7f66;
+    color: #54595d;
+    line-height: 1.7;
 }
 
-@media (max-width: 700px) {
-    header {
-        padding: 20px 14px 18px 14px;
+@media (max-width: 800px) {
+    .page {
+        flex-direction: column;
     }
 
-    .brand-title {
-        font-size: 30px;
-        letter-spacing: 5px;
+    .sidebar {
+        width: 100%;
+    }
+
+    .logo-mark {
+        width: 76px;
+        height: 76px;
+        font-size: 38px;
+    }
+
+    .tabs {
+        height: auto;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 6px 10px;
+    }
+
+    .tab {
+        align-self: flex-start;
+    }
+
+    .search-box {
+        padding: 6px 0;
+    }
+
+    .search-box input {
+        width: 100%;
     }
 
     main {
-        margin: 14px 10px;
-        padding: 20px 18px 30px 18px;
+        padding: 16px;
     }
 
-    h1 {
-        font-size: 25px;
-    }
-
-    .card {
+    .infobox {
         float: none;
         width: 100%;
         margin: 10px 0;
@@ -288,38 +322,60 @@ footer {
     .category-grid {
         grid-template-columns: repeat(2, 1fr);
     }
+
+    footer {
+        padding: 20px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<header>
-    <div class="brand" onclick="showHome()">
-        <div class="brand-title">ラスペディア</div>
-        <div class="brand-sub">ラスカルサーバー百科</div>
+<div class="page">
+
+    <aside class="sidebar">
+        <div class="logo-box" onclick="showHome()">
+            <div class="logo-mark">ラ</div>
+            <div class="logo-title">ラスペディア</div>
+            <div class="logo-sub">ラスカルサーバー百科事典</div>
+        </div>
+
+        <div class="portlet">
+            <h3>案内</h3>
+            <a onclick="showHome()">メインページ</a>
+        </div>
+
+        <div class="portlet">
+            <h3>カテゴリー</h3>
+            <a onclick="showCategory('サーバー情報')">サーバー情報</a>
+            <a onclick="showCategory('経済')">経済</a>
+            <a onclick="showCategory('職業')">職業</a>
+            <a onclick="showCategory('ダンジョン')">ダンジョン</a>
+            <a onclick="showCategory('アイテム')">アイテム</a>
+            <a onclick="showCategory('戦争')">戦争</a>
+            <a onclick="showCategory('その他')">その他</a>
+        </div>
+    </aside>
+
+    <div class="content-wrap">
+        <div class="tabs">
+            <div class="tab" id="tabMain">メインページ</div>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="ラスペディア内を検索" oninput="searchArticles()">
+            </div>
+        </div>
+
+        <main>
+            <div id="content"></div>
+        </main>
+
+        <footer>
+            <div>ラスペディアは、Minecraft統合版「ラスカルサーバー」の非公式ファン百科事典です。</div>
+        </footer>
     </div>
-    <div class="searchbar">
-        <input type="text" id="searchInput" placeholder="記事を検索..." oninput="searchArticles()">
-    </div>
-</header>
 
-<nav>
-    <a onclick="showHome()">ホーム</a>
-    <a onclick="showCategory('サーバー情報')">サーバー情報</a>
-    <a onclick="showCategory('経済')">経済</a>
-    <a onclick="showCategory('職業')">職業</a>
-    <a onclick="showCategory('ダンジョン')">ダンジョン</a>
-    <a onclick="showCategory('アイテム')">アイテム</a>
-    <a onclick="showCategory('戦争')">戦争</a>
-    <a onclick="showCategory('その他')">その他</a>
-</nav>
-
-<main>
-    <div id="content"></div>
-</main>
-
-<footer>ラスペディア | ラスカルサーバー非公式ファン百科</footer>
+</div>
 
 <script>
 const articles = [
@@ -327,9 +383,9 @@ const articles = [
         title: "ラスカルサーバー",
         category: "サーバー情報",
         description: "Minecraft統合版のラスカルサーバーについて。",
-        card: [
+        infobox: [
             ["種類", "Minecraft統合版サーバー"],
-            ["対応版", "統合版(Bedrock)"],
+            ["対応版", "統合版(Bedrock Edition)"],
             ["ジャンル", "経済・職業・戦争"]
         ]
     },
@@ -379,19 +435,25 @@ function loadView() {
     }
 }
 
+function setTab(label) {
+    document.getElementById("tabMain").textContent = label;
+}
+
 function escapeHtml(text) {
     return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
 function showHome() {
     searchInput.value = "";
+    setTab("メインページ");
     saveView({ type: "home" });
 
     content.innerHTML = `
         <h1>ラスペディアへようこそ</h1>
-        <div class="lead">ここは、Minecraft統合版「ラスカルサーバー」のことをみんなでまとめていく非公式の百科事典です。現在 ${articles.length} 件の記事があります。</div>
+        <div class="tagline">ラスカルサーバーの非公式フリー百科事典</div>
+        <p>ラスペディアは、Minecraft統合版「ラスカルサーバー」に関する情報をまとめる非公式の百科事典です。現在 <b>${articles.length}</b> 件の記事があります。</p>
 
-        <h2>カテゴリー</h2>
+        <h2>カテゴリーから探す</h2>
         <div class="category-grid">
             <div class="category" onclick="showCategory('サーバー情報')">サーバー情報</div>
             <div class="category" onclick="showCategory('経済')">経済</div>
@@ -410,13 +472,15 @@ function showHome() {
 
 function showCategory(category) {
     searchInput.value = "";
+    setTab("カテゴリー");
     saveView({ type: "category", value: category });
 
     const filtered = articles.filter(article => article.category === category);
 
     content.innerHTML = `
-        <h1>${category}</h1>
-        <p>「${category}」に関する記事が ${filtered.length} 件あります。</p>
+        <h1>カテゴリー:${category}</h1>
+        <div class="tagline">ラスペディアより</div>
+        <p>このカテゴリーには ${filtered.length} 件の記事があります。</p>
         <div id="articleList"></div>
     `;
 
@@ -439,7 +503,7 @@ function renderArticles(list) {
         return `
             <div class="article-item">
                 <a onclick="showArticleByIndex(${index})">${article.title}</a>
-                <div class="article-category">${article.category}</div>
+                <div class="article-category">カテゴリー:${article.category}</div>
             </div>
         `;
     }).join("");
@@ -454,15 +518,16 @@ function showArticle(title) {
     if (!article) return;
 
     searchInput.value = "";
+    setTab("記事");
     saveView({ type: "article", value: article.title });
 
-    let card = "";
-    if (article.card) {
-        card = `
-            <div class="card">
-                <div class="card-title">${article.title}</div>
+    let infobox = "";
+    if (article.infobox) {
+        infobox = `
+            <div class="infobox">
+                <div class="ib-title">${article.title}</div>
                 <table>
-                    ${article.card.map(row => `<tr><th>${row[0]}</th><td>${row[1]}</td></tr>`).join("")}
+                    ${article.infobox.map(row => `<tr><th>${row[0]}</th><td>${row[1]}</td></tr>`).join("")}
                 </table>
             </div>
         `;
@@ -470,11 +535,11 @@ function showArticle(title) {
 
     content.innerHTML = `
         <h1>${article.title}</h1>
-        <span class="tag">${article.category}</span>
+        <div class="tagline">ラスペディアより</div>
 
-        ${card}
+        ${infobox}
 
-        <div class="lead">${article.description}</div>
+        <p><b>${article.title}</b>は、${article.description}</p>
 
         <div class="toc">
             <div class="toc-title">目次</div>
@@ -494,7 +559,7 @@ function showArticle(title) {
         <h2 id="sec-related">関連項目</h2>
         <p><a onclick="showCategory('${article.category}')">${article.category}</a></p>
 
-        <div class="back"><a onclick="showHome()">← ホームに戻る</a></div>
+        <div class="catlinks">カテゴリー:<a onclick="showCategory('${article.category}')">${article.category}</a></div>
     `;
 
     window.scrollTo(0, 0);
@@ -515,8 +580,11 @@ function searchArticles() {
         return;
     }
 
+    setTab("検索結果");
+
     content.innerHTML = `
         <h1>検索結果</h1>
+        <div class="tagline">ラスペディアより</div>
         <p>「${escapeHtml(keyword)}」の検索結果</p>
         <div id="articleList"></div>
     `;
