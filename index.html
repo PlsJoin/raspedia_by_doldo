@@ -518,6 +518,39 @@ footer {
         grid-template-columns: 1fr;
     }
 }
+
+/* スマホ対応: メニューは下に回し、タップしやすくする */
+@media (max-width: 1000px) {
+    .content-wrap {
+        order: 1;
+        width: 100%;
+    }
+
+    .appearance {
+        order: 2;
+    }
+
+    .sidebar {
+        order: 3;
+        width: 100%;
+    }
+
+    .portlet a {
+        padding: 10px 8px;
+    }
+
+    .search-box input {
+        font-size: 16px;
+    }
+
+    .toc {
+        display: block;
+    }
+
+    main {
+        min-height: 0;
+    }
+}
 </style>
 </head>
 <body>
@@ -562,7 +595,7 @@ footer {
 
         <div class="portlet">
             <h3>クエスト</h3>
-            <a onclick="showArticle('クエスト')">クエスト</a>
+            <a onclick="showList('quest')">クエスト</a>
             <a class="sub-link" onclick="showArticle('デイリークエスト')">デイリークエスト</a>
             <a class="sub-link" onclick="showArticle('ウィークリークエスト')">ウィークリークエスト</a>
         </div>
@@ -570,8 +603,8 @@ footer {
         <div class="portlet">
             <h3>ゲームシステム</h3>
             <a onclick="showArticle('ジョブ')">ジョブ</a>
-            <a onclick="showArticle('職業')">職業</a>
-            <a onclick="showArticle('スキル')">スキル</a>
+            <a onclick="showList('occupation')">職業</a>
+            <a onclick="showList('skill')">スキル</a>
             <a onclick="showArticle('ダンジョン')">ダンジョン</a>
             <a onclick="showArticle('勢力')">勢力</a>
             <a onclick="showArticle('戦争')">戦争</a>
@@ -724,6 +757,7 @@ function showHome() {
 
         <h2>クエスト</h2>
         <div class="category-grid">
+            <div class="category" onclick="showList('quest')">クエスト一覧</div>
             <div class="category" onclick="showArticle('デイリークエスト')">デイリークエスト</div>
             <div class="category" onclick="showArticle('ウィークリークエスト')">ウィークリークエスト</div>
         </div>
@@ -731,8 +765,8 @@ function showHome() {
         <h2>ゲームシステム</h2>
         <div class="category-grid">
             <div class="category" onclick="showArticle('ジョブ')">ジョブ</div>
-            <div class="category" onclick="showArticle('職業')">職業</div>
-            <div class="category" onclick="showArticle('スキル')">スキル</div>
+            <div class="category" onclick="showList('occupation')">職業</div>
+            <div class="category" onclick="showList('skill')">スキル</div>
             <div class="category" onclick="showArticle('ダンジョン')">ダンジョン</div>
             <div class="category" onclick="showArticle('勢力')">勢力</div>
             <div class="category" onclick="showArticle('戦争')">戦争</div>
@@ -852,6 +886,39 @@ function scrollToId(id) {
     if (element) {
         element.scrollIntoView({ behavior: "smooth", block: "start" });
     }
+}
+
+function showList(key) {
+    const titles = {
+        quest: "クエスト",
+        occupation: "職業",
+        skill: "スキル"
+    };
+    const title = titles[key] || "一覧";
+    const list = (window.LaspediaData || {})[key] || [];
+
+    searchInput.value = "";
+    setTab(title + "一覧");
+
+    content.innerHTML = `
+        <div class="breadcrumb">
+            <a onclick="showHome()">メインページ</a>
+            ＞ ${escapeHtml(title)}
+        </div>
+
+        <h1>${escapeHtml(title)}一覧</h1>
+
+        <div class="tagline">
+            出典: フリー百科事典『ラスペディア』
+        </div>
+
+        <p>${escapeHtml(title)}に関する記事の一覧です。見たい記事を選んでください。</p>
+
+        <div id="articleList"></div>
+    `;
+
+    renderArticles(list);
+    window.scrollTo(0, 0);
 }
 
 function searchArticles() {
