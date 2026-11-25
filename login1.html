@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>入場コード入力 | ラスペディア</title>
+<title>招待コード入力 | ラスペディア</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700;900&display=swap" rel="stylesheet">
@@ -64,7 +64,7 @@ form {
     flex-direction: column;
     gap: 12px;
 }
-input[type="text"] {
+input[type="password"], input[type="text"] {
     font: inherit;
     padding: 10px 12px;
     border: 1px solid var(--border);
@@ -72,6 +72,14 @@ input[type="text"] {
     text-align: center;
     letter-spacing: 2px;
     width: 100%;
+}
+.show-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: .85em;
+    color: var(--sub);
 }
 button {
     font: inherit;
@@ -84,6 +92,7 @@ button {
     width: 100%;
 }
 button:hover { filter: brightness(0.97); }
+button:disabled, input:disabled { opacity: .55; cursor: not-allowed; }
 .error {
     color: var(--error);
     font-size: .9em;
@@ -99,7 +108,8 @@ button:hover { filter: brightness(0.97); }
 </style>
 <script>
 (function () {
-    if (sessionStorage.getItem("raspedia_gate_ok") === "1") {
+    // 入場済みなら本体へ戻す
+    if (sessionStorage.getItem("raspedia_gate") === "3886070d5dab9dec8fc6b33e5f2a557bb636f4c8905eb00e9007787f4cace114") {
         location.replace("index.html");
     }
 })();
@@ -110,30 +120,96 @@ button:hover { filter: brightness(0.97); }
     <div class="logo-title">ラスペディア</div>
     <div class="logo-sub">ラスカルサーバー 非公式ファン百科</div>
     <div class="divider"></div>
-    <p class="desc">このサイトは現在、公開を制限しています。<br>入場コードを入力してください。</p>
+    <p class="desc">このサイトは現在、招待制で公開しています。<br>招待コードを入力してください。</p>
     <form id="gateForm">
-        <input type="text" id="codeInput" placeholder="入場コード" autocomplete="off" autofocus>
-        <button type="submit">入場する</button>
+        <input type="password" id="codeInput" placeholder="招待コード" autocomplete="off" autofocus>
+        <label class="show-row"><input type="checkbox" id="showCode"> コードを表示する</label>
+        <button type="submit" id="submitBtn">入場する</button>
         <p class="error" id="errorMsg"></p>
     </form>
-    <p class="note">コードはブラウザを閉じるとリセットされ、再度入力が必要になります。</p>
+    <p class="note">招待コードはブラウザを閉じるとリセットされ、再度入力が必要になります。<br>コードを何度も間違えると、しばらく入力できなくなります。</p>
 </div>
 <script>
-// ===== 入場コード（変更するときはこの1行だけ書き換える） =====
-var ACCESS_CODE = "rascal2025";
-// ==========================================================
+// ===== 招待コードの照合用ハッシュ (SHA-256) =====
+// コードそのものはファイル内に書かれていません。
+// コードを変更するときは、新しいコードのSHA-256ハッシュに差し替えてください。
+var CODE_HASH = "3886070d5dab9dec8fc6b33e5f2a557bb636f4c8905eb00e9007787f4cace114";
+// ================================================
+var MAX_FAILS = 5;      // 連続で間違えられる回数
+var LOCK_SECONDS = 30;  // ロック時間（秒）
 
-document.getElementById("gateForm").addEventListener("submit", function (e) {
-    e.preventDefault();
-    var value = document.getElementById("codeInput").value.trim();
-    if (value === ACCESS_CODE) {
-        sessionStorage.setItem("raspedia_gate_ok", "1");
-        location.replace("index.html");
+var form = document.getElementById("gateForm");
+var input = document.getElementById("codeInput");
+var button = document.getElementById("submitBtn");
+var errorMsg = document.getElementById("errorMsg");
+var lockTimer = null;
+
+document.getElementById("showCode").addEventListener("change", function () {
+    input.type = this.checked ? "text" : "password";
+    input.focus();
+});
+
+function sha256Hex(text) {
+    return crypto.subtle.digest("SHA-256", new TextEncoder().encode(text)).then(function (buf) {
+        return Array.from(new Uint8Array(buf)).map(function (b) {
+            return b.toString(16).padStart(2, "0");
+        }).join("");
+    });
+}
+
+function lockUntil() {
+    return Number(sessionStorage.getItem("raspedia_gate_lock") || "0");
+}
+
+function refreshLock() {
+    var remain = Math.ceil((lockUntil() - Date.now()) / 1000);
+    if (remain > 0) {
+        input.disabled = true;
+        button.disabled = true;
+        errorMsg.textContent = "入力がロックされています。あと " + remain + " 秒お待ちください。";
+        lockTimer = setTimeout(refreshLock, 500);
     } else {
-        document.getElementById("errorMsg").textContent = "コードが違います。もう一度お試しください。";
-        document.getElementById("codeInput").value = "";
-        document.getElementById("codeInput").focus();
+        input.disabled = false;
+        button.disabled = false;
+        sessionStorage.removeItem("raspedia_gate_lock");
+        sessionStorage.removeItem("raspedia_gate_fails");
+        if (errorMsg.textContent.indexOf("ロック") !== -1) errorMsg.textContent = "";
+        if (lockTimer) { clearTimeout(lockTimer); lockTimer = null; }
     }
+}
+refreshLock();
+
+form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (Date.now() < lockUntil()) { refreshLock(); return; }
+    if (!window.crypto || !crypto.subtle) {
+        errorMsg.textContent = "このブラウザでは照合できませんでした。httpsで開いているか確認してください。";
+        return;
+    }
+    var value = input.value.trim();
+    if (!value) {
+        errorMsg.textContent = "招待コードを入力してください。";
+        return;
+    }
+    sha256Hex(value).then(function (hash) {
+        if (hash === CODE_HASH) {
+            sessionStorage.setItem("raspedia_gate", CODE_HASH);
+            sessionStorage.removeItem("raspedia_gate_fails");
+            sessionStorage.removeItem("raspedia_gate_lock");
+            location.replace("index.html");
+        } else {
+            var fails = Number(sessionStorage.getItem("raspedia_gate_fails") || "0") + 1;
+            sessionStorage.setItem("raspedia_gate_fails", String(fails));
+            input.value = "";
+            input.focus();
+            if (fails >= MAX_FAILS) {
+                sessionStorage.setItem("raspedia_gate_lock", String(Date.now() + LOCK_SECONDS * 1000));
+                refreshLock();
+            } else {
+                errorMsg.textContent = "招待コードが違います。（あと " + (MAX_FAILS - fails) + " 回間違えるとロックされます）";
+            }
+        }
+    });
 });
 </script>
 </body>
