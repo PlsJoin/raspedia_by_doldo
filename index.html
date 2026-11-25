@@ -558,6 +558,102 @@ footer {
         min-height: 0;
     }
 }
+
+/* ===== デザイン微調整（レイアウト・構成はそのまま、見た目だけ整える） ===== */
+::selection {
+    background: var(--boxhead);
+}
+
+header {
+    box-shadow: 0 1px 5px rgba(0, 0, 0, .07);
+}
+
+.logo-title {
+    letter-spacing: 2px;
+}
+
+.search-box input {
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, .04);
+}
+
+.search-box input:focus {
+    border-color: var(--link);
+    box-shadow: 0 0 0 3px var(--hover);
+}
+
+.tab {
+    font-weight: 700;
+}
+
+main {
+    border-radius: 0 4px 4px 4px;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, .05);
+}
+
+h1 {
+    border-bottom: 2px solid var(--bluebd);
+}
+
+h2 {
+    border-bottom: 1px solid var(--line);
+    border-left: 4px solid var(--boxhead);
+    padding-left: 10px;
+}
+
+.notice {
+    border-left: 4px solid var(--link);
+}
+
+.toc {
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .05);
+}
+
+.infobox {
+    box-shadow: 0 1px 5px rgba(0, 0, 0, .06);
+}
+
+.category {
+    font-weight: 600;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .04);
+    transition: background .15s, border-color .15s, box-shadow .15s, transform .15s;
+}
+
+.category:hover {
+    box-shadow: 0 3px 8px rgba(0, 0, 0, .10);
+    transform: translateY(-1px);
+}
+
+.article-item {
+    border-radius: var(--radius);
+    transition: background .15s;
+}
+
+.article-item:hover {
+    background: var(--hover);
+}
+
+.portlet h3 {
+    letter-spacing: .06em;
+}
+
+.portlet a {
+    transition: background .15s;
+}
+
+.appearance {
+    box-shadow: 0 1px 6px rgba(0, 0, 0, .05);
+}
+
+.catlinks {
+    border-left: 4px solid var(--boxhead);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+    outline: 2px solid var(--link);
+    outline-offset: 1px;
+}
 </style>
 </head>
 <body>
