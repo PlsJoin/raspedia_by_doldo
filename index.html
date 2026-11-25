@@ -3,6 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+(function () {
+    if (sessionStorage.getItem("raspedia_gate_ok") !== "1") {
+        location.replace("login1.html");
+    }
+})();
+</script>
 <title>ラスペディア</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

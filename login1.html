@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>入場コード入力 | ラスペディア</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #f6f6f6;
+    --page: #fff;
+    --text: #202122;
+    --sub: #54595d;
+    --border: #a2a9b1;
+    --line: #eaecf0;
+    --bluebd: #a7d7f9;
+    --boxhead: #cedff2;
+    --error: #b32424;
+}
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Noto Serif JP", "Yu Mincho", serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.card {
+    background: var(--page);
+    border: 1px solid var(--bluebd);
+    max-width: 420px;
+    width: 100%;
+    padding: 36px 32px 30px;
+    text-align: center;
+}
+.logo-title {
+    font-size: 1.9em;
+    font-weight: 900;
+    letter-spacing: 1px;
+    line-height: 1.25;
+}
+.logo-sub {
+    font-size: .8em;
+    color: var(--sub);
+    margin-top: 4px;
+}
+.divider {
+    border-top: 1px solid var(--line);
+    margin: 22px 0;
+}
+.desc {
+    font-size: .95em;
+    line-height: 1.8;
+    margin: 0 0 18px;
+}
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+input[type="text"] {
+    font: inherit;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    text-align: center;
+    letter-spacing: 2px;
+    width: 100%;
+}
+button {
+    font: inherit;
+    font-weight: 700;
+    padding: 10px 12px;
+    background: var(--boxhead);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    cursor: pointer;
+    width: 100%;
+}
+button:hover { filter: brightness(0.97); }
+.error {
+    color: var(--error);
+    font-size: .9em;
+    min-height: 1.6em;
+    margin: 4px 0 0;
+}
+.note {
+    color: var(--sub);
+    font-size: .78em;
+    line-height: 1.7;
+    margin: 18px 0 0;
+}
+</style>
+<script>
+(function () {
+    if (sessionStorage.getItem("raspedia_gate_ok") === "1") {
+        location.replace("index.html");
+    }
+})();
+</script>
+</head>
+<body>
+<div class="card">
+    <div class="logo-title">ラスペディア</div>
+    <div class="logo-sub">ラスカルサーバー 非公式ファン百科</div>
+    <div class="divider"></div>
+    <p class="desc">このサイトは現在、公開を制限しています。<br>入場コードを入力してください。</p>
+    <form id="gateForm">
+        <input type="text" id="codeInput" placeholder="入場コード" autocomplete="off" autofocus>
+        <button type="submit">入場する</button>
+        <p class="error" id="errorMsg"></p>
+    </form>
+    <p class="note">コードはブラウザを閉じるとリセットされ、再度入力が必要になります。</p>
+</div>
+<script>
+// ===== 入場コード（変更するときはこの1行だけ書き換える） =====
+var ACCESS_CODE = "rascal2025";
+// ==========================================================
+
+document.getElementById("gateForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var value = document.getElementById("codeInput").value.trim();
+    if (value === ACCESS_CODE) {
+        sessionStorage.setItem("raspedia_gate_ok", "1");
+        location.replace("index.html");
+    } else {
+        document.getElementById("errorMsg").textContent = "コードが違います。もう一度お試しください。";
+        document.getElementById("codeInput").value = "";
+        document.getElementById("codeInput").focus();
+    }
+});
+</script>
+</body>
+</html>
